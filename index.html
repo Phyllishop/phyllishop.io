@@ -1154,7 +1154,7 @@ footer{
     </div>
     <div class="step-panel" id="step4">
       <div class="success-screen">
-        <div class="success-icon">🎉</div>
+        <div class="success-icon"></div>
         <h2>Pre-Order Placed!</h2>
         <p id="successMsg">Your order is confirmed. Tap below to get WhatsApp confirmation from Phyll iPre-Orders.</p>
         <div class="conf-btns">
@@ -1342,7 +1342,7 @@ var orders = STORE.get('orders', []);
 // CHECKOUT STATE
 // ══════════════════════════════════════════════
 var _o = { phone:'', phoneId:'', storage:'', price:0, locked:true, network:'', payMethod:'momo', momoNum:'' };
-var SIZES = ['128GB','256GB','512GB','1TB'];
+var SIZES = ['256GB','512GB','1TB'];
 var WA = '233206241853';
 
 function _el(id){ return document.getElementById(id); }
@@ -1467,7 +1467,7 @@ function startBuy(phoneId) {
   var wrap = _el('storageOpts');
   wrap.innerHTML = '';
   // Price increments per storage tier
-  var increments = [0, 500, 1200, 2500];
+  var increments = [0, 500, 1200];
   SIZES.forEach(function(sz, i) {
     var total = basePrice + increments[i];
     var btn = document.createElement('button');
