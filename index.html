@@ -586,17 +586,7 @@ footer{
 /* ══════════════════════════════════════════
    ADMIN DASHBOARD
 ══════════════════════════════════════════ */
-#adminBtn{
-  position:fixed;bottom:24px;left:24px;
-  background:var(--surface);border:1px solid var(--border);
-  color:var(--muted);
-  padding:.5rem .9rem;border-radius:980px;
-  font-size:.72rem;font-weight:700;cursor:pointer;
-  z-index:800;transition:all .2s;
-  font-family:'Manrope',sans-serif;
-  letter-spacing:.05em;
-}
-#adminBtn:hover{color:var(--text);border-color:var(--accent);}
+
 #adminOverlay{
   display:none;position:fixed;inset:0;
   background:rgba(0,0,0,.9);backdrop-filter:blur(12px);
@@ -953,6 +943,7 @@ footer{
     <a href="https://wa.me/233206241853?text=Hi%20Phyll%20iPre-Orders!" class="btn btn-wa" style="font-size:.82rem;padding:.5rem 1rem;">
       💬 WhatsApp
     </a>
+    <button id="adminBtn" onclick="openAdmin()" style="background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:980px;padding:.5rem 1rem;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;margin-left:.5rem;" onmouseover="this.style.color='var(--text)';this.style.borderColor='var(--accent)'" onmouseout="this.style.color='var(--muted)';this.style.borderColor='var(--border)'">⚙ Admin</button>
   </div>
 </nav>
 
@@ -1139,7 +1130,7 @@ footer{
 </footer>
 
 <a href="https://wa.me/233206241853?text=Hi%20Phyll%20iPre-Orders!" class="wa-float" title="WhatsApp Phyll">💬</a>
-<button id="adminBtn" onclick="openAdmin()">⚙ Admin</button>
+
 
 <!-- ══ CHECKOUT OVERLAY ══ -->
 <div id="overlay" onclick="if(event.target===this)closeOverlay()">
@@ -1409,6 +1400,10 @@ footer{
 
     </div>
   </div>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  emailjs.init("PkwSnEdpY40AFcuyM");
+</script>
 </div>
 <script>
 // ══════════════════════════════════════════════
@@ -1797,8 +1792,18 @@ function submitOrder() {
     sm.innerHTML = 'Hi <strong>' + _esc(name) + '</strong>! Your pre-order for <strong>' + _esc(_o.phone) + ' ' + _esc(_o.storage) + '</strong> (GH₵ ' + _o.price.toLocaleString() + ') is confirmed.<br><br>Order ID: <strong>' + orderId + '</strong>' + (email ? '<br>Confirmation also going to: <strong>' + _esc(email) + '</strong>' : '') + '<br><br>Tap below to get WhatsApp confirmation.';
   }
   var wl = _el('waConfirmLink');
-  if (wl) wl.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
-  goStep(4);
+ if (wl) wl.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+
+      if (email) {
+        emailjs.send('service_phyll', 'template_1rvkmsg', {
+          customer_name: name,
+          customer_email: email,
+          phone_name: _o.phone,
+          order_id: orderId
+        });
+      }
+
+goStep(4);
 }
 
 // ══════════════════════════════════════════════
